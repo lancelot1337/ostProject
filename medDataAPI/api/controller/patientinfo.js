@@ -4,15 +4,17 @@ const PatientInfo = require("../models/patientinfo");
 exports.getAll = (req, res, next) => {
   PatientInfo.find()
     .select(
-      "Name Age Gender HR O2Sat Temp SBP MAP DBP Resp EtCO2 BaseExcess HCO3 FiO2 pH PaCO2 SaO2 AST BUN Alkalinephos Calcium Chloride Creatinine Bilirubin_direct Glucose LactateMagnesium Phosphate Potassium Bilirubin_total TroponinI Hct Hgb PTT WBC Fibrinogen Platelets HospAdmTime ICULOS ap1 ap2 ap3"
+      "createdAt updatedAt Name Age Gender HR O2Sat Temp SBP MAP DBP Resp EtCO2 BaseExcess HCO3 FiO2 pH PaCO2 SaO2 AST BUN Alkalinephos Calcium Chloride Creatinine Bilirubin_direct Glucose LactateMagnesium Phosphate Potassium Bilirubin_total TroponinI Hct Hgb PTT WBC Fibrinogen Platelets HospAdmTime ICULOS ap1 ap2 ap3"
     )
     .exec()
     .then((docs) => {
       const response = {
         count: docs.length,
-        products: docs.map((doc) => {
+        patients: docs.map((doc) => {
           return {
             _id: doc._id,
+            createdAt: doc.createdAt,
+            updatedAt: doc.updatedAt,
             Name: doc.Name,
             Age: doc.Age,
             Gender: doc.Gender,
@@ -126,6 +128,9 @@ exports.post = (req, res, next) => {
         message: "Created patient successfully",
         createdPatient: {
           _id: result._id,
+          createdAt: result.createdAt,
+          updatedAt: result.updatedAt,
+          time: result.time,
           Name: result.Name,
           Age: result.Age,
           Gender: result.Gender,
@@ -184,7 +189,7 @@ exports.getSingle = (req, res, next) => {
   const id = req.params.id;
   PatientInfo.findById(id)
     .select(
-      "Name Age Gender HR O2Sat Temp SBP MAP DBP Resp EtCO2 BaseExcess HCO3 FiO2 pH PaCO2 SaO2 AST BUN Alkalinephos Calcium Chloride Creatinine Bilirubin_direct Glucose LactateMagnesium Phosphate Potassium Bilirubin_total TroponinI Hct Hgb PTT WBC Fibrinogen Platelets HospAdmTime ICULOS ap1 ap2 ap3"
+      "createdAt updatedAt Name Age Gender HR O2Sat Temp SBP MAP DBP Resp EtCO2 BaseExcess HCO3 FiO2 pH PaCO2 SaO2 AST BUN Alkalinephos Calcium Chloride Creatinine Bilirubin_direct Glucose LactateMagnesium Phosphate Potassium Bilirubin_total TroponinI Hct Hgb PTT WBC Fibrinogen Platelets HospAdmTime ICULOS ap1 ap2 ap3"
     )
     .exec()
     .then((doc) => {
@@ -200,6 +205,81 @@ exports.getSingle = (req, res, next) => {
       } else {
         res.status(404).json({ message: "Requested data not found" });
       }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });
+};
+
+exports.getNameSingle = (req, res, next) => {
+  const name = req.params.name;
+  PatientInfo.find({ Name: name })
+    .select(
+      "createdAt updatedAt Name Age Gender HR O2Sat Temp SBP MAP DBP Resp EtCO2 BaseExcess HCO3 FiO2 pH PaCO2 SaO2 AST BUN Alkalinephos Calcium Chloride Creatinine Bilirubin_direct Glucose LactateMagnesium Phosphate Potassium Bilirubin_total TroponinI Hct Hgb PTT WBC Fibrinogen Platelets HospAdmTime ICULOS ap1 ap2 ap3"
+    )
+    .exec()
+    .then((docs) => {
+      const response = {
+        count: docs.length,
+        patients: docs.map((doc) => {
+          return {
+            _id: doc._id,
+            createdAt: doc.createdAt,
+            updatedAt: doc.updatedAt,
+            Name: doc.Name,
+            Age: doc.Age,
+            Gender: doc.Gender,
+            HR: doc.HR,
+            O2Sat: doc.O2Sat,
+            Temp: doc.Temp,
+            SBP: doc.SBP,
+            MAP: doc.MAP,
+            DBP: doc.DBP,
+            Resp: doc.Resp,
+            EtCO2: doc.EtCO2,
+            BaseExcess: doc.BaseExcess,
+            HCO3: doc.HCO3,
+            FiO2: doc.FiO2,
+            pH: doc.pH,
+            PaCO2: doc.PaCO2,
+            SaO2: doc.SaO2,
+            AST: doc.AST,
+            BUN: doc.BUN,
+            Alkalinephos: doc.Alkalinephos,
+            Calcium: doc.Calcium,
+            Chloride: doc.Chloride,
+            Creatinine: doc.Creatinine,
+            Bilirubin_direct: doc.Bilirubin_direct,
+            Glucosedoc: doc.Glucose,
+            LactateMagnesium: doc.LactateMagnesium,
+            Phosphate: doc.Phosphate,
+            Potassium: doc.Potassium,
+            Bilirubin_total: doc.Bilirubin_total,
+            TroponinI: doc.TroponinI,
+            Hct: doc.Hct,
+            Hgb: doc.Hgb,
+            PTT: doc.PTT,
+            WBC: doc.WBC,
+            Fibrinogen: doc.Fibrinogen,
+            Platelets: doc.Platelets,
+            HospAdmTime: doc.HospAdmTime,
+            ICULOS: doc.ICULOS,
+            ap1: doc.ap1,
+            ap2: doc.ap2,
+            ap3: doc.ap3,
+            request: {
+              type: "GET",
+              url: "http://localhost:3000/patientinfo/" + doc._id,
+            },
+          };
+        }),
+      };
+      // if(docs.length >= 0){
+      res.status(200).json(response);
+      // } else{
+      // 	res.status(404).json({message: "No entires found"})
+      // }
     })
     .catch((err) => {
       console.log(err);

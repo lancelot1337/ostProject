@@ -47,4 +47,6 @@ router.patch("/:id", PatientInfoController.patch);
 
 router.delete("/:id", PatientInfoController.delete);
 
+router.get("/nameSearch/:name", PatientInfoController.getNameSingle);
+
 module.exports = router;

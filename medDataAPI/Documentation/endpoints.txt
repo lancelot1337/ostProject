@@ -3,3 +3,4 @@ POST:https://meddataapi.herokuapp.com/patientinfo/
 GET:https://meddataapi.herokuapp.com/patientinfo/:id
 PATCH:https://meddataapi.herokuapp.com/patientinfo/:id
 DELETE:https://meddataapi.herokuapp.com/patientinfo/:id
+GET:https://meddataapi.herokuapp.com/patientinfo/nameSearch/:name
