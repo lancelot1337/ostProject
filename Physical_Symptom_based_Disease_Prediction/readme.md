@@ -1,4 +1,4 @@
-<h1>Prediction of Disease based on Physicl Symptoms and Analysis of Common Symptoms for Various Diseases </h1>
+<h1>Prediction of Disease based on Physical Symptoms and Analysis of Common Symptoms for Various Diseases </h1>
 
 <h2>Files</h2>
 <h3>Symptoms.txt</h3> contains the list of Symptoms that were a part of the analysis
