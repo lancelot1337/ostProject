@@ -16,7 +16,6 @@ http://people.dbmi.columbia.edu/~friedma/Projects/DiseaseSymptomKB/index.html
 <h3>
  Disease_list
   </h3>
-  <br>
   contains List of Diseases that were a part of the analysis
   
 
